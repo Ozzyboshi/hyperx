@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/root/ACE/game/fonts/fonts.h
+stddef.h
+-
+
 /root/ACE/game/images/Valkyrie2.h
 stddef.h
 -
@@ -87,6 +91,8 @@ white.h
 /root/ACE/game/images/Valkyrie2.h
 ../music/forden.h
 /root/ACE/game/music/forden.h
+../fonts/fonts.h
+/root/ACE/game/fonts/fonts.h
 
 /root/ACE/game/src/mygame.h
 geometry.h

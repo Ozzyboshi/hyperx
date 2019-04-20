@@ -35,6 +35,7 @@ CMakeFiles/hyperx.dir/src/main.c.obj
  /root/ACE/include/ace/utils/extview.h
  /root/ACE/include/ace/utils/file.h
 CMakeFiles/hyperx.dir/src/mygame.c.obj
+ /root/ACE/game/fonts/fonts.h
  /root/ACE/game/images/Valkyrie2.h
  /root/ACE/game/music/forden.h
  /root/ACE/game/src/colors.h

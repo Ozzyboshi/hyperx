@@ -13,6 +13,7 @@
 #include "white.h"
 #include "../images/Valkyrie2.h"
 #include "../music/forden.h"
+#include "../fonts/fonts.h"
 
 //#define   REG(x,y) register y __asm(#x)
 #define SOUND
@@ -28,6 +29,9 @@ long mt_init(const unsigned char*);
 void mt_music();
 void wait1();
 void wait2();
+void blitchar(tSimpleBufferManager *,char,int);
+void blitphrase(tSimpleBufferManager* ,const char*);
+
 
 
 // "Gamestate" is a long word, so let's use shortcut "Gs" when naming fns
@@ -102,7 +106,7 @@ void gameGsCreate(void) {
   refreshScreenRealPlay();
   
   //bitmapLoadFromFile(s_pMainBuffer->pBuffer,"background.bm",0,0);
-  for (i=1;i<10;i++)
+  /*for (i=1;i<10;i++)
   {
     chunkyToPlanar(1, 16*i, 0, s_pScoreBuffer->pBack);
   }
@@ -113,7 +117,7 @@ void gameGsCreate(void) {
   for (i=1;i<10;i++)
   {
     chunkyToPlanar(3, 16*i, 7, s_pScoreBuffer->pFront);
-  }
+  }*/
   
   s_pVpScore->pPalette[0] = 0x0000; // First color is also border color
   s_pVpScore->pPalette[1] = 0x0F00; // Gray
@@ -176,7 +180,8 @@ void gameGsCreate(void) {
     {
       viewLoad(s_pView);
     }*/
-
+  //blitchar(s_pScoreBuffer,'A',19);
+  
 }
 
 void gameGsLoop(void) {
@@ -197,6 +202,7 @@ void gameGsLoop(void) {
   int YFloodCoordinate=0;
   int XFloodCoordinate=0;
   int firePressed=0;
+  char scoreStr[19];
 
   //if (fillShape) return ;
   
@@ -291,7 +297,9 @@ else {
       }
       else
       {
-    
+        sprintf(scoreStr,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
+        blitphrase(s_pScoreBuffer,scoreStr);
+
         // DrawSession management
         UBYTE color = chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate);
         //if (drawSession==0 && chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate)==0)
@@ -1165,4 +1173,115 @@ mt_end:\n\t
   CLR.W $DFF0D8\n\t
   MOVE.W  #$F,$DFF096\n\t
   RTS\n\t");*/
+}
+
+void blitphrase(tSimpleBufferManager* buffer,const char* phrase)
+{
+  for (size_t i=0;i<strlen(phrase)&&i<20;i++)
+  {
+    blitchar(buffer,phrase[i],i);
+  }
+
+}
+
+void blitchar(tSimpleBufferManager * buffer,char character,int offset)
+{
+  int charOffset=(int)character-32;
+
+   blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0026;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset));
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)buffer->pBack->Planes[0]+offset*2);
+  g_pCustom->bltsize = 0X0501;
+  return;
+
+  for (int i=0;i<20;i++)
+  {
+    blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset)+i*2);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]+40*i);
+  g_pCustom->bltsize = 0x0041;
+  }
+  return ;
+
+  blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset));
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]);
+  g_pCustom->bltsize = 0x0041;
+
+   blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset)+2);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]+40);
+  g_pCustom->bltsize = 0x0041;
+
+   blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset)+4);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]+80);
+  g_pCustom->bltsize = 0x0041;
+
+   blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset)+6);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]+120);
+  g_pCustom->bltsize = 0x0041;
+
+  blitWait();
+  g_pCustom->bltcon0 = 0x09F0;
+  g_pCustom->bltcon1 = 0x0000;
+  g_pCustom->bltafwm = 0xFFFF;
+  g_pCustom->bltalwm = 0xFFFF;
+  g_pCustom->bltamod = 0x0000;
+  g_pCustom->bltbmod = 0x0000;
+  g_pCustom->bltcmod = 0x0000;
+  g_pCustom->bltdmod = 0x0000;
+  g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset)+8);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)s_pScoreBufferRealPlay->pBack->Planes[0]+160);
+  g_pCustom->bltsize = 0x0041;
+
 }
