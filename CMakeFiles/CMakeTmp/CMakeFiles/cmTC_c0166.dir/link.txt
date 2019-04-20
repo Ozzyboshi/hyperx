@@ -1,0 +1,2 @@
+/opt/amiga/bin/m68k-amigaos-ar qc libcmTC_c0166.a  CMakeFiles/cmTC_c0166.dir/feature_tests.c.obj
+/opt/amiga/bin/m68k-amigaos-ranlib libcmTC_c0166.a

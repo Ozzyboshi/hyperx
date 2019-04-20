@@ -1,0 +1,201 @@
+Ozzyboshi [9:36 AM]
+@KaiN I am moving an object at 1 pixel for frame, how would you suggest to slow it down since i cant move it half pixel at time?
+
+
+KaiN [9:36 AM]
+yes you can
+ACE has libfixmath for this :wink:
+
+Ozzyboshi [9:37 AM]
+the code now is
+if(joyCheck(JOY1_RIGHT))         { XCoordinate+=1; moveFlag=JOY1_RIGHT; }
+the problem is i cant say XCoordinate+=0,5
+because XCoordinate is a integer
+and represent the pixel coordinate on the screen
+this is a very common question it would be great to write something in the docs
+
+KaiN [9:39 AM]
+```#include <fixmath/fix16.h>
+
+// ...
+
+fix16_t XCoord = 0;
+fix16_t half = fix16_div(fix16_from_int(1), fix16_from_int(2)); // calculate once if possible
+// ...
+
+if(right) XCoord += half;
+
+// draw using fix16_to_int(XCoord)```
+(edited)
+
+GitHub APP [9:41 AM]
+Issue opened by tehKaiN
+tehKaiN
+#92 Add docs regarding fixed point usage
+With something like this:
+
+```#include <fixmath/fix16.h>
+
+// ...
+
+fix16_t XCoord = 0;```
+ Show more
+Labels
+Easy, enhancement
+AmigaPorts/ACEToday at 9:41 AM
+
+Ozzyboshi [9:43 AM]
+i see typedef int32_t fix16_t
+
+KaiN [9:43 AM]
+yes, it's using 32-bit vars to store fixed point number in 16.16 format
+in typical ints first biy is 2^0 = 1, 2nd is 2^1 = 2, etc., 4, 8, 16, 32, 64...
+in fixed point you move 2^0 way up, here to 16th bit, so 15th bit is 2^-1 = 1/2, 14th is 2^-2 = 1/4, etc.
+so 1 becomes `0000 0000 | 0000 0001 | 0000 0000 | 0000 0000`
+1/2 is `0000 0000 | 0000 0000 | 1000 0000 | 0000 0000`
+1/4 is `0000 0000 | 0000 0000 | 0100 0000 | 0000 00001`
+so 1 + 3/4 is `0000 0000 | 0000 0001 | 1100 0000 | 0000 0000`
+it's faster than floats
+but comes with a price - do you remember how shaky ps1 3d graphics were? :wink:
+it's because lack of precision compared to floats
+
+Ozzyboshi [9:48 AM]
+i dont want precision now just want to force the object to wait one cicle before moving to the next pixel
+
+KaiN [9:48 AM]
+so use fixed points and convert them to ints for drawing sake
+
+Ozzyboshi [9:48 AM]
+the problem in my case is that Xcoord is also used on a matrix
+for example i write MAP[0][Xcoord]=1
+
+KaiN [9:49 AM]
+or just do a counter for "how many frames has passed with same direction arrow pressed"
+
+Ozzyboshi [9:49 AM]
+i cant use xcoord because its not a int32
+
+KaiN [9:49 AM]
+you can use fix16_to_int(XCoord)
+
+Ozzyboshi [9:49 AM]
+if this function is in ace it's wonderful
+
+KaiN [9:50 AM]
+yes it is
+
+Ozzyboshi [9:50 AM]
+ok i will give it a try
+
+KaiN [9:51 AM]
+you just have to remember that you have to convert stuff properly:
+
+```fix16_t a = fix16_from_int(3);
+a += 2; // WRONG!
+a += fix16_from_int(2); // Correct
+int b = 3 + a; // WRONG!
+int b = 3 + fix16_to_int(a); // Correct```
+
+Ozzyboshi [9:52 AM]
+interesting
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+Ozzyboshi [9:38 AM]
+thekain, does something like asm INCBIN exist in ACE?
+
+to load raw data into memory
+
+KaiN [9:01 AM]
+@Ozzyboshi https://github.com/Sophrinix/incbin
+Sophrinix/incbin
+Tiny cross-platform utility for including binaries into C source.
+Stars
+3
+Language
+Shell
+Sophrinix/incbinJan 31st, 2015Added by GitHub
+It's not in ACE but it's what I'm using at work :wink:
+
+Ozzyboshi [9:05 AM]
+very good
+
+is it possible to load a bitmap from the output of incbin?
+￼
+KaiN9:10 AM
+nah, it can't really do that
+9:10 AM
+it's an open issue but noone had time to do this
+9:10 AM
+https://github.com/AmigaPorts/ACE/issues/50
+￼tehKaiN
+#50 Switch to FS based on monolithic file
+Moved from #25 since it's currently not that critical but will be for moving to ROM-based platforms or squeezing into floppy. It would be cool to have an ability to work on plain file structure of host OS or on virtual FS based on monolithic file.
+
+☐ Determine lightweight, portable, virtual FS for such mode
+☐ Ability to enable monolithic FS with single define during compilation
+☐ Implement a tool to transform required file structure to monolithic bigfile
+☐ Add support for storage, also modifying (hi scores)
+
+Before we introduce another custom file format, let's look at embedded systems for similar mature solutions. Perhaps SquashFS would do the job? Or is it too bloated?
+Labels
+enhancement, help wanted
+Comments
+4
+AmigaPorts/ACEApr 17th, 2018Added by GitHub
+￼
+Ozzyboshi9:11 AM
+let's say i have a 3 bitplane raw image in a variable
+9:11 AM
+i could cycle byte by byte to determine the color
+9:11 AM
+from there i can build a bitmap
+9:12 AM
+could it be doable?
+￼
+KaiN9:12 AM
+you could, yes, but loading time would kill you
+9:13 AM
+you'd need to chunky2planar all pixels if it's chunky pixel RAW format
+9:13 AM
+ACE's .bm is bitplane RAW with minimal header
+new messages
+9:14 AM
+so you could just create tBitMap struct and associate bitplane pointers with addresses within incbinned .bm file
+Message Input
+header is like 10 UWORDs or something, so first bitplane is in pBmFile + 10*sizeof(UWORD)
+
+------------------------------------------
+
+
+; Read 2 different screens and put their AND into a third screen
+; Usage OR_SCREEN <sourceA> <sourceB> <destination>
+AND_SCREEN MACRO
+        btst    #6,$dff002
+\@.waitblit2
+        btst    #6,$dff002
+        bne.s   \@.waitblit2
+        
+        move.w  #$0DC0,$dff040  ; BLTCON0
+        move.w  #$0000,$dff042  ; BLTCON1
+        move.w  #$ffff,$dff044   ; BLTAFWM
+        move.w  #$ffff,$dff046   ; BLTALWM
+        move.l  #\1,$dff050     ; BLTAPT  
+        move.l  #\2,$dff04c     ; BLTBPT  
+        move.l  #\3,$dff054     ; BLTDPT  
+        move.w  #0,$dff064      ; BLTAMOD 
+        move.w  #0,$dff062      ; BLTBMOD 
+        move.w  #0,$dff066      ; BLTDMOD 
+        move.w  #$4014,$dff058  ; BLTSIZE 
+        ENDM
+
+￼

@@ -1,0 +1,3 @@
+/root/ACE/game/CMakeFiles/CMakeTmp/CMakeFiles/rebuild_cache.dir
+/root/ACE/game/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_c0166.dir
+/root/ACE/game/CMakeFiles/CMakeTmp/CMakeFiles/edit_cache.dir
