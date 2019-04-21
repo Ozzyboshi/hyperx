@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 extern UBYTE PLAYGROUND [PLAYGROUND_HEIGHT][XSCREEN_RES];
+extern unsigned int SCORE;
 extern int X1;
 extern int X2;
 extern int Y1;
@@ -38,7 +39,7 @@ int test()
 }
 
 // Non recorsive Flood region
-Coordlimits* shape_flood(int x, int y, UBYTE replacement_color, UBYTE target_color,enum FLOOD_TYPE floodtype,int forceFill)
+Coordlimits* shape_flood(int x, int y, UBYTE replacement_color, UBYTE target_color,enum FLOOD_TYPE floodtype)
 {
   Coordlimits* limits=NULL;
   struct TFlood_queue* Q=NULL,*newelem=NULL,*TMP=NULL;
@@ -60,6 +61,7 @@ Coordlimits* shape_flood(int x, int y, UBYTE replacement_color, UBYTE target_col
   if (color_node!=target_color) return NULL;
 
   PLAYGROUND[y][x]=replacement_color;
+  SCORE++;
   limits->minY=limits->maxY=y;
   limits->yMaxFlodded=0;
 
@@ -94,60 +96,40 @@ Coordlimits* shape_flood(int x, int y, UBYTE replacement_color, UBYTE target_col
     {
       //chunkyToPlanar(replacement_color, N.x+1, N.y, bitmap);
       PLAYGROUND[N.y][N.x+1]=replacement_color;
+      SCORE++;
       if (N.y<limits->minY) limits->minY=N.y;
       if (N.y>limits->maxY) limits->maxY=N.y;
       Q=enqueue_tflood_elem(Q,create_tflood_elem(N.x+1,N.y,color_node));
     }
     else if (color_node==TRACK_COLOR_INDEX||color_node==CURSOR_COLOR_INDEX) fillTracks(N,+1,0,limits,replacement_color,&trackFlood);
-    /*else if (floodtype==ALL && forceFill&2) 
-    // else if (floodtype==ALL)
-    {
-      forceFillAll(N,+1,0,limits,replacement_color,&trackFlood);
-    }*/
 
     //10.     If the color of the node to the north (UP) of n is target-color,
     //         set the color of that node to replacement-color and add that node to the end of Q.
-    //color_node=chunkyFromPlanar(bitmap, N.x,N.y-1);
 
     color_node=PLAYGROUND[N.y-1][N.x];
     if (color_node==target_color)
     {
-      //chunkyToPlanar(replacement_color, N.x, N.y-1, bitmap);
       PLAYGROUND[N.y-1][N.x]=replacement_color;
+      SCORE++;
       if (N.y-1<limits->minY) limits->minY=N.y-1;
       if (N.y-1>limits->maxY) limits->maxY=N.y-1;
       Q=enqueue_tflood_elem(Q,create_tflood_elem(N.x,N.y-1,color_node));
     }
     else if (color_node==TRACK_COLOR_INDEX||color_node==CURSOR_COLOR_INDEX) fillTracks(N,0,-1,limits,replacement_color,&trackFlood);
-    /*else if (floodtype==ALL && forceFill&4) {
-      for (int yFill=1;(N.y-yFill>=0) && (PLAYGROUND[N.y-yFill][N.x]);yFill++)
-      {
-        PLAYGROUND[N.y-yFill][N.x]=replacement_color;
-        if (N.y<limits->minY) limits->minY=N.y;
-        if (N.y>limits->maxY) limits->maxY=N.y;
-      }
-    }*/
 
     //11.     If the color of the node to the west (LEFT) of n is target-color,
     //         set the color of that node to replacement-color and add that node to the end of Q.
-    //color_node=chunkyFromPlanar(bitmap, N.x-1,N.y);
 
     color_node=PLAYGROUND[N.y][N.x-1];
     if (color_node==target_color)
     {
-      //chunkyToPlanar(replacement_color, N.x-1, N.y, bitmap);
       PLAYGROUND[N.y][N.x-1]=replacement_color;
+      SCORE++;
       if (N.y<limits->minY) limits->minY=N.y;
       if (N.y>limits->maxY) limits->maxY=N.y;
       Q=enqueue_tflood_elem(Q,create_tflood_elem(N.x-1,N.y,color_node));
     }
     else if (color_node==TRACK_COLOR_INDEX||color_node==CURSOR_COLOR_INDEX) fillTracks(N,-1,0,limits,replacement_color,&trackFlood);
-    // Fill tracks
-   /* else if (floodtype==ALL && forceFill&1)
-    // else if (floodtype==ALL)
-    {
-      forceFillAll(N,-1,0,limits,replacement_color,&trackFlood);
-    }*/
 
     //12.     If the color of the node to the south (DOWN) of n is target-color,
     //         set the color of that node to replacement-color and add that node to the end of Q.
@@ -156,23 +138,14 @@ Coordlimits* shape_flood(int x, int y, UBYTE replacement_color, UBYTE target_col
     color_node=PLAYGROUND[N.y+1][N.x];
     if (color_node==target_color)
     {
-      //chunkyToPlanar(replacement_color, N.x, N.y+1, bitmap);
       PLAYGROUND[N.y+1][N.x]=replacement_color;
+      SCORE++;
       if (N.y+1<limits->minY) limits->minY=N.y+1;
       if (N.y+1>limits->maxY) limits->maxY=N.y+1;
+      //if (N.y+1<PLAYGROUND_HEIGHT) 
       Q=enqueue_tflood_elem(Q,create_tflood_elem(N.x,N.y+1,color_node));
     }
     else if (color_node==TRACK_COLOR_INDEX||color_node==CURSOR_COLOR_INDEX) fillTracks(N,0,+1,limits,replacement_color,&trackFlood);
-    /*else if (floodtype==ALL && forceFill&8) {
-      for (int yFill=1;(N.y+yFill<PLAYGROUND_HEIGHT) &&(PLAYGROUND[N.y+yFill][N.x]);yFill++)
-      {
-        int fillPoint=N.y+yFill;
-        PLAYGROUND[fillPoint][N.x]=replacement_color;
-        if (fillPoint<limits->minY) limits->minY=fillPoint;
-        if (fillPoint>limits->maxY) limits->maxY=fillPoint;
-        limits->yMaxFlodded=1;
-      }
-    }*/
   }
 
   //trackEvaluate(trackFlood);
@@ -414,7 +387,9 @@ void forceFillAll(struct TFlood_queue N,int XStep,int YStep,Coordlimits* limits,
 void forceFillPoint(point curPoint,Coordlimits* limits,int replacement_color)
 {
   if (curPoint.y<0) return;
+  if (PLAYGROUND[curPoint.y][curPoint.x]==replacement_color) return ;
   PLAYGROUND[curPoint.y][curPoint.x]=replacement_color;
+  SCORE++;
   if (curPoint.y<limits->minY) limits->minY=curPoint.y;
   if (curPoint.y>limits->maxY) limits->maxY=curPoint.y;
 }

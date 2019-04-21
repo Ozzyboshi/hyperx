@@ -20,7 +20,7 @@ struct TFlood_queue
 
 
 void rect_flood(tBitMap* ,int , int , UBYTE , UBYTE );
-Coordlimits* shape_flood(int , int , UBYTE , UBYTE,enum FLOOD_TYPE,int );
+Coordlimits* shape_flood(int , int , UBYTE , UBYTE,enum FLOOD_TYPE );
 int test();
 
 

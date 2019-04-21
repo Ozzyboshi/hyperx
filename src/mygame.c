@@ -43,12 +43,15 @@ tSimpleBufferManager *s_pScoreBuffer,*s_pScoreBufferRealPlay;
 int X1,X2,Y1,Y2;
 //UBYTE PLAYGROUND [PLAYGROUND_HEIGHT][PLAYGROUND_WIDTH];
 UBYTE PLAYGROUND [PLAYGROUND_HEIGHT][XSCREEN_RES];
+unsigned int SCORE;
 int YPADDING=0;
 int PVPMAIN_XMIDDLEPOINT,PVPMAIN_YMIDDLEPOINT;
 //point* pointList;
 
 void gameGsCreate(void) {
   int i;
+  char scoreStr[19];
+
   //static tView *s_pView; // View containing all the viewports
 
   static tVPort *s_pVpScore,*s_pVpScoreRealPlay; // Viewport for score
@@ -154,6 +157,7 @@ void gameGsCreate(void) {
   // Initializations for this gamestate - load bitmaps, draw background, etc.
   // We don't need anything here right now except for unusing OS
   systemUnuse();
+  SCORE=0;
   g_pCustom->intena = INTF_SETCLR | INTF_INTEN | (
                         INTF_BLIT | INTF_COPER | INTF_VERTB |   
                         INTF_PORTS
@@ -181,6 +185,8 @@ void gameGsCreate(void) {
       viewLoad(s_pView);
     }*/
   //blitchar(s_pScoreBuffer,'A',19);
+  sprintf(scoreStr,"SCORE %d",SCORE);
+  blitphrase(s_pScoreBufferRealPlay,scoreStr);
   
 }
 
@@ -203,6 +209,7 @@ void gameGsLoop(void) {
   int XFloodCoordinate=0;
   int firePressed=0;
   char scoreStr[19];
+  int vMovement=0;
 
   //if (fillShape) return ;
   
@@ -338,15 +345,16 @@ else {
         if (fillShape)
         {
           point floodCoords;
-          int forceFill=0;
+          //int forceFill=0;
 
           // Vertical straight line
           //if ((moveFlag==JOY1_UP||moveFlag==JOY1_DOWN) /*&& cornerCounter==0*/ )
           if ((firstMoveLastDraw==JOY1_UP&&moveFlag==JOY1_UP) || (firstMoveLastDraw==JOY1_DOWN && moveFlag==JOY1_DOWN) )
           {
-            logWrite("Vertical line case with 0 corners!\n");
+            vMovement=1;
             if (cornerCounter==0)
             {
+              logWrite("Vertical line case with 0 corners!\n");
               int xStep=1;
               if (pointList->x<PVPMAIN_XMIDDLEPOINT) xStep=-1;
               buildPoint(pointList->x+xStep,pointList->y,&floodCoords);
@@ -374,9 +382,15 @@ else {
                 int leftArea = geometryReverseArea2(pointList,0,point1,point2);
                 logWrite("Left area: %d\n",leftArea);
                 if (rightArea<leftArea)
+                {
                   buildPoint(pointList->x+1,pointList->y,&floodCoords);
+                  logWrite("Riempio a destra!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
                 else
+                {
                   buildPoint(pointList->x-1,pointList->y,&floodCoords);
+                  logWrite("Riempio a sinistra %d %d!!\n",floodCoords.x,floodCoords.y);
+                }
               }
               else
               {
@@ -396,9 +410,15 @@ else {
                 int leftArea = geometryGetRightArea2(pointList,0,point1,point2);
                 logWrite("Left area: %d\n",leftArea);
                 if (rightArea<leftArea)
+                {
                   buildPoint(pointList->x+1,pointList->y,&floodCoords);
+                  logWrite("Riempio a destra!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
                 else
+                {
                   buildPoint(pointList->x-1,pointList->y,&floodCoords);
+                  logWrite("Riempio a sinistra %d %d!!\n",floodCoords.x,floodCoords.y);
+                }
               }
             }
           }
@@ -474,13 +494,16 @@ else {
           {
             int coordFound=1;
             
-            logWrite("**************** FIND OUT THE CORNER POINT !!!!!! ************************\n");
-            for (point* ptr=pointList;coordFound&&ptr;ptr=(point*)ptr->next)
+            if (vMovement==0)
             {
-              logWrite("Corner Point :##%d,%d##\n",ptr->x,ptr->y);
-              coordFound=getFloodCoords(pointList, ptr->x, ptr->y,&XFloodCoordinate,&YFloodCoordinate,&floodCoords);
-              // if the coord found is already filled go on and try the next
-              if (PLAYGROUND[-1*floodCoords.y][floodCoords.x]==FILL_COLOR_INDEX) coordFound=1;
+              logWrite("**************** FIND OUT THE CORNER POINT !!!!!! ************************\n");
+              for (point* ptr=pointList;coordFound&&ptr;ptr=(point*)ptr->next)
+              {
+                logWrite("Corner Point :##%d,%d##\n",ptr->x,ptr->y);
+                coordFound=getFloodCoords(pointList, ptr->x, ptr->y,&XFloodCoordinate,&YFloodCoordinate,&floodCoords);
+                // if the coord found is already filled go on and try the next
+                if (PLAYGROUND[-1*floodCoords.y][floodCoords.x]==FILL_COLOR_INDEX) coordFound=1;
+              }
             }
             PLOT_POINT(CURSOR_COLOR_INDEX,firstPoint.x,firstPoint.y) // Mark where the session really started with a red dot
 
@@ -488,22 +511,22 @@ else {
 
             
             
-            if (firstMoveLastDraw==JOY1_RIGHT) forceFill|=1;
+            /*if (firstMoveLastDraw==JOY1_RIGHT) forceFill|=1;
             else if (firstMoveLastDraw==JOY1_LEFT) forceFill|=2;
             else if (firstMoveLastDraw==JOY1_DOWN) forceFill|=4;
             else if (firstMoveLastDraw==JOY1_UP) forceFill|=8;
-            if (moveFlag==JOY1_UP) forceFill|=4;
+            if (moveFlag==JOY1_UP) forceFill|=4;*/
           }
           logWrite("Shape flood starts at (%d,%d), orientation: %d Coordinates: %d,%d\n",floodCoords.x,-1*floodCoords.y,orientation,XCoordinate,YCoordinate);
 
-          Coordlimits* limits = shape_flood(floodCoords.x, -1*floodCoords.y,FILL_COLOR_INDEX,EMPTY_COLOR_INDEX,ALL,forceFill);
+          Coordlimits* limits = shape_flood(floodCoords.x, -1*floodCoords.y,FILL_COLOR_INDEX,EMPTY_COLOR_INDEX,ALL);
           //Coordlimits* limits = shape_flood(s_pMainBuffer->pFront,floodCoords.x, floodCoords.y,FILL_COLOR_INDEX,0,1);
           //Coordlimits* limits=NULL;
           if (limits)
           {
             logWrite("Y limits : %d,%d- yMaxFlodded:%d\n",limits->minY,limits->maxY,limits->yMaxFlodded);
             PLOT_POINT(TRACK_COLOR_INDEX,firstPoint.x,firstPoint.y)
-            refreshscreen(limits->minY-2,limits->maxY+2);
+            refreshscreen(limits->minY-1,limits->maxY+1);
             refreshScreenRealPlay();
             free(limits);
           }
@@ -512,6 +535,10 @@ else {
               refreshscreen(0,PLAYGROUND_HEIGHT);
               refreshScreenRealPlay();
           }
+
+
+          sprintf(scoreStr,"SCORE %d",SCORE);
+          blitphrase(s_pScoreBufferRealPlay,scoreStr);
           
           fillShape=0;
           lastMoveflag=orientation=0;
@@ -640,7 +667,11 @@ void refreshscreen(int yMin,int yMax)
       for (int zCont=0;zCont<16;zCont++)
       {
         if (PLAYGROUND[yCont][xCont+zCont]==CURSOR_COLOR_INDEX) PLAYGROUND[yCont][xCont+zCont]=TRACK_COLOR_INDEX;
-        else if (xCont>0 && yCont>0 && PLAYGROUND[yCont][xCont+zCont]==TRACK_COLOR_INDEX && PLAYGROUND[yCont][xCont+zCont-1]==FILL_COLOR_INDEX && PLAYGROUND[yCont][xCont+zCont+1]==FILL_COLOR_INDEX && PLAYGROUND[yCont-1][xCont+zCont]==FILL_COLOR_INDEX && PLAYGROUND[yCont+1][xCont+zCont]==FILL_COLOR_INDEX) PLAYGROUND[yCont][xCont+zCont]=FILL_COLOR_INDEX;
+        else if (xCont>0 && yCont>0 && PLAYGROUND[yCont][xCont+zCont]==TRACK_COLOR_INDEX && PLAYGROUND[yCont][xCont+zCont-1]==FILL_COLOR_INDEX && PLAYGROUND[yCont][xCont+zCont+1]==FILL_COLOR_INDEX && PLAYGROUND[yCont-1][xCont+zCont]==FILL_COLOR_INDEX && PLAYGROUND[yCont+1][xCont+zCont]==FILL_COLOR_INDEX) 
+        {
+          PLAYGROUND[yCont][xCont+zCont]=FILL_COLOR_INDEX;
+          SCORE++;
+        }
       }
       chunkyToPlanar16(&PLAYGROUND[yCont][xCont],xCont,yCont+Y2,s_pMainBuffer->pFront);
     }
