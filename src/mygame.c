@@ -39,6 +39,7 @@ tView *s_pView,*s_pViewRealPlay;
 tSimpleBufferManager *s_pMainBuffer,*s_pMainBufferRealPlay;
 tVPort *s_pVpMain,*s_pVpMainRealPlay,*s_pVpMainCurrent;
 tSimpleBufferManager *s_pScoreBuffer,*s_pScoreBufferRealPlay;
+tVPort *s_pVpScore,*s_pVpScoreRealPlay;
 
 int X1,X2,Y1,Y2;
 //UBYTE PLAYGROUND [PLAYGROUND_HEIGHT][PLAYGROUND_WIDTH];
@@ -54,7 +55,7 @@ void gameGsCreate(void) {
 
   //static tView *s_pView; // View containing all the viewports
 
-  static tVPort *s_pVpScore,*s_pVpScoreRealPlay; // Viewport for score
+  //static tVPort *s_pVpScore,*s_pVpScoreRealPlay; // Viewport for score
   // static tSimpleBufferManager *s_pScoreBuffer,*s_pScoreBufferRealPlay;
   
   //static tVPort *s_pVpMain; // Viewport for playfield
@@ -297,7 +298,7 @@ else {
     {
 
       // If new position is not allowed restore previous position
-      if (!positionAllowed(XCoordinate,YCoordinate,firePressed,moveFlag))
+      if (!positionAllowed(XCoordinate,YCoordinate,firePressed,moveFlag,drawSession))
       {
         XCoordinate=oldXCoordinate;
         YCoordinate=oldYCoordinate;
@@ -317,6 +318,7 @@ else {
           pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
           logWrite("\n\nDrawsession started at %d %d\n\n",XCoordinate,YCoordinate);
           buildPoint(oldXCoordinate,oldYCoordinate,&firstPoint);
+          s_pVpScore->pPalette[0]=0X0FFF;
         }
         //else if (drawSession==1 && chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate)!=0)
         //else if (drawSession==1 && color!=EMPTY_COLOR_INDEX)
@@ -326,6 +328,7 @@ else {
           pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
           logWrite("\n\nDrawsession ended at %d %d\n\n",XCoordinate,YCoordinate);
           fillShape=1;
+          s_pVpScore->pPalette[0]=0X0000;
         }
         else if (corner && drawSession==1) 
         {
@@ -526,7 +529,7 @@ else {
           {
             logWrite("Y limits : %d,%d- yMaxFlodded:%d\n",limits->minY,limits->maxY,limits->yMaxFlodded);
             PLOT_POINT(TRACK_COLOR_INDEX,firstPoint.x,firstPoint.y)
-            refreshscreen(limits->minY-1,limits->maxY+1);
+            refreshscreen(limits->minY-2,limits->maxY+2);
             refreshScreenRealPlay();
             free(limits);
           }
@@ -571,8 +574,13 @@ void gameGsDestroy(void) {
   // Empty at the moment except systemUse
 }
 
-int positionAllowed(int x,int y,int firePressed,int moveFlag)
+int positionAllowed(int x,int y,int firePressed,int moveFlag,int drawSession)
 {
+  if (drawSession&&!firePressed)
+  {
+    logWrite("Must press fire on drawSession)\n");
+    return 0;
+  }
   int x2=0,y2=0;
   switch (moveFlag)
   {
@@ -659,8 +667,9 @@ void refreshscreen(int yMin,int yMax)
 {
   //for (int i=0;i<PLAYGROUND_HEIGHT;i++) {PLAYGROUND[i][X1]=(UBYTE)3;PLAYGROUND[i][X2]=(UBYTE)3;}
   //for (int yCont=0;yCont<PLAYGROUND_HEIGHT;yCont++)
+  logWrite("refreshscreen: %d %d\n",yMin,yMax);
   if (yMin<0) yMin=0;
-  else if (yMax>PLAYGROUND_HEIGHT) yMax=PLAYGROUND_HEIGHT;
+  if (yMax>PLAYGROUND_HEIGHT) yMax=PLAYGROUND_HEIGHT;
   for (int yCont=yMin;yCont<yMax;yCont++)
     for (int xCont=0;xCont<320;xCont+=16)
     {

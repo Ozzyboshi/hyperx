@@ -15,7 +15,7 @@ void gameGsLoop(void);
 
 void gameGsDestroy(void);
 
-int positionAllowed(int ,int ,int,int);
+int positionAllowed(int ,int ,int,int,int);
 
 //void flood(int, int, UBYTE, UBYTE); 
 void refreshscreen(int,int);
