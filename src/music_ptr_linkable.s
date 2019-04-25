@@ -2,6 +2,7 @@
 ;	XDEF mt_data1
 	XDEF _mt_init
 	XDEF _mt_music
+	XDEF _mt_end
 	XDEF _wait1
 	XDEF _wait2
 
@@ -103,7 +104,7 @@ mtloop3:
 	CLR.B	mt_counter
 	CLR.B	mt_SongPos
 	CLR.W	mt_PatternPos
-mt_end:
+_mt_end:
 	CLR.W	$DFF0A8
 	CLR.W	$DFF0B8
 	CLR.W	$DFF0C8

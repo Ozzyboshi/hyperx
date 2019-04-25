@@ -10,13 +10,17 @@
 #include "flood.h"
 #include "geometry.h"
 #include <stdlib.h>
-#include "white.h"
+//#include "white.h"
 #include "../images/Valkyrie2.h"
 #include "../music/forden.h"
 #include "../fonts/fonts.h"
+#include "../images/Cursor.h"
 
 //#define   REG(x,y) register y __asm(#x)
+
 #define SOUND
+#define PRINTFONTS
+#define PLAYER_SPRITES
 
 int interno2 ( point , point* );
 int interno3 ( point , point* );
@@ -26,13 +30,19 @@ int geometryReverseArea2(point* ,int ,point,point);
 void refreshScreenRealPlay();
 void snd_init();
 long mt_init(const unsigned char*);
+#ifdef SOUND
 void mt_music();
+#endif
 void wait1();
 void wait2();
-void blitchar(tSimpleBufferManager *,char,int);
-void blitphrase(tSimpleBufferManager* ,const char*);
-
-
+#ifdef PRINTFONTS
+void blitchar(tSimpleBufferManager *,char,int,const unsigned int);
+void blitphrase(tSimpleBufferManager* ,const char*,const unsigned int);
+#endif
+#ifdef PLAYER_SPRITES
+void setCursorSprite();
+void spriteMove(UWORD,UWORD);
+#endif
 
 // "Gamestate" is a long word, so let's use shortcut "Gs" when naming fns
 tView *s_pView,*s_pViewRealPlay;
@@ -51,7 +61,9 @@ int PVPMAIN_XMIDDLEPOINT,PVPMAIN_YMIDDLEPOINT;
 
 void gameGsCreate(void) {
   int i;
+#ifdef PRINTFONTS
   char scoreStr[19];
+#endif
 
   //static tView *s_pView; // View containing all the viewports
 
@@ -68,9 +80,9 @@ void gameGsCreate(void) {
   s_pMainBuffer = simpleBufferCreate(0,TAG_SIMPLEBUFFER_VPORT, s_pVpMain,TAG_SIMPLEBUFFER_BITMAP_FLAGS, BMF_CLEAR,TAG_END);
 
   s_pViewRealPlay = viewCreate(0,TAG_VIEW_GLOBAL_CLUT, 1,TAG_END);
-  s_pVpScoreRealPlay = vPortCreate(0,TAG_VPORT_VIEW, s_pViewRealPlay,TAG_VPORT_BPP, 4,TAG_VPORT_HEIGHT, 32,TAG_END);
+  s_pVpScoreRealPlay = vPortCreate(0,TAG_VPORT_VIEW, s_pViewRealPlay,TAG_VPORT_BPP, 5,TAG_VPORT_HEIGHT, 32,TAG_END);
   s_pScoreBufferRealPlay = simpleBufferCreate(0,TAG_SIMPLEBUFFER_VPORT, s_pVpScoreRealPlay, TAG_SIMPLEBUFFER_BITMAP_FLAGS, BMF_CLEAR,TAG_END);
-  s_pVpMainRealPlay = vPortCreate(0,TAG_VPORT_VIEW, s_pViewRealPlay,TAG_VPORT_BPP, 4,TAG_END);
+  s_pVpMainRealPlay = vPortCreate(0,TAG_VPORT_VIEW, s_pViewRealPlay,TAG_VPORT_BPP, 5,TAG_END);
   s_pMainBufferRealPlay = simpleBufferCreate(0,TAG_SIMPLEBUFFER_VPORT, s_pVpMainRealPlay,TAG_SIMPLEBUFFER_BITMAP_FLAGS, BMF_CLEAR,TAG_END);
   
 //  blitLine(s_pMainBuffer->pBack, 60, 10, 260, 10, 1, 0xFFFF, 0);
@@ -146,6 +158,12 @@ void gameGsCreate(void) {
   s_pVpScoreRealPlay->pPalette[14] = 0x0004; // Red - not max, a bit dark
   s_pVpScoreRealPlay->pPalette[15] = 0x078A;
 
+  //s_pVpScoreRealPlay->pPalette[16] = 0x0070; // First color is also border color
+  // Sprite 0 colors (cursor)
+  s_pVpScoreRealPlay->pPalette[17] = 0x0070; // Gray
+  s_pVpScoreRealPlay->pPalette[18] = 0x00f0; // Red - not max, a bit dark
+  s_pVpScoreRealPlay->pPalette[19] = 0x0bf0;
+
 
   
   /*s_pVpMain->pPalette[0] = 0x0000; // First color is also border color
@@ -159,10 +177,10 @@ void gameGsCreate(void) {
   // We don't need anything here right now except for unusing OS
   systemUnuse();
   SCORE=0;
-  g_pCustom->intena = INTF_SETCLR | INTF_INTEN | (
+ /* g_pCustom->intena = INTF_SETCLR | INTF_INTEN | (
                         INTF_BLIT | INTF_COPER | INTF_VERTB |   
                         INTF_PORTS
-                );
+                );*/
   logWrite("intena :  %d\n",INTF_SETCLR | INTF_INTEN | (INTF_BLIT | INTF_COPER | INTF_VERTB |   INTF_PORTS));
   logWrite("intenar : %d\n",g_pCustom->intenar);
   s_pVpMainCurrent=s_pVpMainRealPlay;
@@ -186,9 +204,14 @@ void gameGsCreate(void) {
       viewLoad(s_pView);
     }*/
   //blitchar(s_pScoreBuffer,'A',19);
-  sprintf(scoreStr,"SCORE %d",SCORE);
-  blitphrase(s_pScoreBufferRealPlay,scoreStr);
-  
+#ifdef PRINTFONTS
+  snprintf(scoreStr,15,"SCORE %d",SCORE);
+  blitphrase(s_pScoreBufferRealPlay,scoreStr,0);
+#endif
+#ifdef PLAYER_SPRITES
+  setCursorSprite();
+  copProcessBlocks();
+#endif
 }
 
 void gameGsLoop(void) {
@@ -203,13 +226,16 @@ void gameGsLoop(void) {
   static point* pointList;
   static point firstPoint;
   static unsigned int cornerCounter;
+  static int levComplete=0;
 
   UBYTE fillShape=0;
   int corner=0;
   int YFloodCoordinate=0;
   int XFloodCoordinate=0;
   int firePressed=0;
+#ifdef PRINTFONTS
   char scoreStr[19];
+#endif
   int vMovement=0;
 
   //if (fillShape) return ;
@@ -237,8 +263,9 @@ else {
 }
   }*/
 
-#ifdef SOUND
   wait1();
+
+#ifdef SOUND
   mt_music();
 #endif
   
@@ -246,7 +273,11 @@ else {
   
   // This will loop forever until you "pop" or change gamestate
   // or close the game
-  if(keyCheck(KEY_ESCAPE)||joyCheck(JOY2_FIRE)) {
+  if(keyCheck(KEY_ESCAPE)||joyCheck(JOY2_FIRE)) 
+  {
+#ifdef SOUND
+    mt_end();
+#endif
     gameClose();
     return ;
   }
@@ -260,7 +291,11 @@ else {
     s_pVpMainCurrent=s_pVpMainRealPlay;
     viewLoad(s_pViewRealPlay);
   }
-  else {
+  else 
+  {
+    
+    //if (levComplete&&joyCheck(JOY1_FIRE)) {gameClose(); return;}
+    if (levComplete) {wait2(); return ;}
     // Process loop normally
     // We'll come back here later
     
@@ -305,9 +340,15 @@ else {
       }
       else
       {
-        sprintf(scoreStr,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
-        blitphrase(s_pScoreBuffer,scoreStr);
-
+#ifdef PRINTFONTS
+        snprintf(scoreStr,15,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
+        blitphrase(s_pScoreBuffer,scoreStr,0);
+#endif
+#ifdef PLAYER_SPRITES
+        //Update sprite
+        spriteMove((UWORD)XCoordinate-8,(UWORD)YCoordinate+s_pVpScoreRealPlay->uwHeight-8);
+        copProcessBlocks();
+#endif
         // DrawSession management
         UBYTE color = chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate);
         //if (drawSession==0 && chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate)==0)
@@ -339,9 +380,7 @@ else {
         // Plot new point
    
         PLOT_POINT(CURSOR_COLOR_INDEX,XCoordinate,YCoordinate)
-
-       
-        
+ 
         if (!firePressed||(firePressed&&!drawSession)) { PLOT_POINT(TRACK_COLOR_INDEX,oldXCoordinate,oldYCoordinate) }
 
         // If the draw session ended i fill the shape
@@ -539,10 +578,15 @@ else {
               refreshScreenRealPlay();
           }
 
+          /*float percentage=(float)SCORE/(float)PLAYGROUND_AREA*100;
+          div_t q = div( (int) SCORE,(int)PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT);*/
+          double parea=PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT;
+          double percentage=(double)SCORE/(double)parea*100;
+#ifdef PRINTFONTS
+          snprintf(scoreStr,16,"SCORE %d-%d%%",SCORE,(int)percentage);
+          blitphrase(s_pScoreBufferRealPlay,scoreStr,0);
+#endif
 
-          sprintf(scoreStr,"SCORE %d",SCORE);
-          blitphrase(s_pScoreBufferRealPlay,scoreStr);
-          
           fillShape=0;
           lastMoveflag=orientation=0;
 
@@ -558,14 +602,23 @@ else {
           pointList=NULL;
           logWrite("Pointlist freed!\n");
           firstMoveLastDraw=cornerCounter=0;
+          if (percentage>75)
+          {
+#ifdef PRINTFONTS
+            blitphrase(s_pMainBufferRealPlay,"LEVEL COMPLETE",0);
+            blitphrase(s_pMainBufferRealPlay,"PRESS LMB",1);
+            blitphrase(s_pMainBufferRealPlay,"TO EXIT",2);
+#endif
+            levComplete=1;
+            //gameClose();
+          }
+          wait2();
           return;
         }
       }
     }
   }
-  #ifdef SOUND
   wait2();
-  #endif
 }
 
 void gameGsDestroy(void) {
@@ -1215,16 +1268,17 @@ mt_end:\n\t
   RTS\n\t");*/
 }
 
-void blitphrase(tSimpleBufferManager* buffer,const char* phrase)
+#ifdef PRINTFONTS
+void blitphrase(tSimpleBufferManager* buffer,const char* phrase,const unsigned int row)
 {
   for (size_t i=0;i<strlen(phrase)&&i<20;i++)
   {
-    blitchar(buffer,phrase[i],i);
+    blitchar(buffer,phrase[i],i,row);
   }
 
 }
 
-void blitchar(tSimpleBufferManager * buffer,char character,int offset)
+void blitchar(tSimpleBufferManager * buffer,char character,int offset,const unsigned int row)
 {
   int charOffset=(int)character-32;
 
@@ -1238,7 +1292,7 @@ void blitchar(tSimpleBufferManager * buffer,char character,int offset)
   g_pCustom->bltcmod = 0x0000;
   g_pCustom->bltdmod = 0x0026;
   g_pCustom->bltapt = (UBYTE*)((ULONG)font_data+(40*charOffset));
-  g_pCustom->bltdpt = (UBYTE*)((ULONG)buffer->pBack->Planes[0]+offset*2);
+  g_pCustom->bltdpt = (UBYTE*)((ULONG)buffer->pBack->Planes[0]+offset*2+row*40*20);
   g_pCustom->bltsize = 0X0501;
   return;
 
@@ -1325,3 +1379,58 @@ void blitchar(tSimpleBufferManager * buffer,char character,int offset)
   g_pCustom->bltsize = 0x0041;
 
 }
+#endif
+
+#ifdef PLAYER_SPRITES
+
+void setCursorSprite()
+{
+  UBYTE maxCmds = 2; // two MOVEs
+  UWORD waitX = 0; UWORD waitY = 0;
+  tCopBlock *myBlock = copBlockCreate(s_pViewRealPlay->pCopList, maxCmds, waitX, waitY);
+  ULONG ulAddr = (ULONG)Cursor_data;
+  copMove(s_pViewRealPlay->pCopList, myBlock, &g_pSprFetch[0].uwHi, ulAddr >> 16);
+  copMove(s_pViewRealPlay->pCopList, myBlock, &g_pSprFetch[0].uwLo , ulAddr & 0xFFFF);
+  // remember to enable sprite DMA
+  systemSetDma(DMAB_SPRITE, 1);
+}
+
+void spriteMove(UWORD x,UWORD y)
+{
+  x+=128;
+  int y1;
+  y+=0x2C;
+  y1=y+16;
+
+  unsigned char* vStart = (unsigned char*)Cursor_data+0;
+  unsigned char* hStart = (unsigned char*)Cursor_data+1;
+  unsigned char* vStop = (unsigned char*)Cursor_data+2;
+  unsigned char* ctrlByte = (unsigned char*)Cursor_data+3;
+  UBYTE oldCtrlByteVal=*ctrlByte;
+  //UWORD spritePosTmp=x & 0x1FF;
+  UWORD spritePosTmp = x >> 1;
+  *hStart=(UBYTE)spritePosTmp & 0xFF;
+
+  if (x%2==1)
+    oldCtrlByteVal|= 0x01;
+  else
+    oldCtrlByteVal &=0xFE ;
+
+  *vStart=(UBYTE) y & 0xFF;
+  *vStop=(UBYTE) y1 & 0xFF;
+
+  if (y>255)
+    oldCtrlByteVal|= 0x04;
+  else
+    oldCtrlByteVal &=0xFB ;
+
+  if (y1>255)
+    oldCtrlByteVal|= 0x02;
+  else
+    oldCtrlByteVal &=0xFD ;
+
+  *ctrlByte=oldCtrlByteVal;
+  // Vertical
+  return ;
+}
+#endif

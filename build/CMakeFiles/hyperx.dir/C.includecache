@@ -10,6 +10,10 @@
 stddef.h
 -
 
+/root/ACE/game/images/Cursor.h
+stddef.h
+-
+
 /root/ACE/game/images/Valkyrie2.h
 stddef.h
 -
@@ -85,22 +89,18 @@ geometry.h
 /root/ACE/game/src/geometry.h
 stdlib.h
 -
-white.h
-/root/ACE/game/src/white.h
 ../images/Valkyrie2.h
 /root/ACE/game/images/Valkyrie2.h
 ../music/forden.h
 /root/ACE/game/music/forden.h
 ../fonts/fonts.h
 /root/ACE/game/fonts/fonts.h
+../images/Cursor.h
+/root/ACE/game/images/Cursor.h
 
 /root/ACE/game/src/mygame.h
 geometry.h
 /root/ACE/game/src/geometry.h
-
-/root/ACE/game/src/white.h
-stddef.h
--
 
 /root/ACE/include/ace/generic/main.h
 stdlib.h

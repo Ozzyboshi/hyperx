@@ -7,6 +7,7 @@
 // Playground size
 #define PLAYGROUND_WIDTH 180
 #define PLAYGROUND_HEIGHT 210
+//#define PLAYGROUND_AREA PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT
 
 // Playground coordinates macro
 #define PLAYGROUND_X1(var) ((int)var->uwWidth/2)-(PLAYGROUND_WIDTH/2);
