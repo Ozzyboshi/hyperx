@@ -68,7 +68,6 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/ace/managers" TYPE FILE FILES
-    "/root/ACE/include/ace/managers/audio.h"
     "/root/ACE/include/ace/managers/blit.h"
     "/root/ACE/include/ace/managers/copper.h"
     "/root/ACE/include/ace/managers/game.h"

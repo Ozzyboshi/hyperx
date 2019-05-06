@@ -4,7 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/root/ACE/src/ace/managers/audio.c" "/root/ACE/game/build/ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj"
   "/root/ACE/src/ace/managers/blit.c" "/root/ACE/game/build/ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj"
   "/root/ACE/src/ace/managers/copper.c" "/root/ACE/game/build/ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj"
   "/root/ACE/src/ace/managers/game.c" "/root/ACE/game/build/ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj"

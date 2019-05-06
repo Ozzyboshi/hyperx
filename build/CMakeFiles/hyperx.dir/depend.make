@@ -33,6 +33,7 @@ CMakeFiles/hyperx.dir/src/main.c.obj: /root/ACE/include/ace/utils/bitmap.h
 CMakeFiles/hyperx.dir/src/main.c.obj: /root/ACE/include/ace/utils/custom.h
 CMakeFiles/hyperx.dir/src/main.c.obj: /root/ACE/include/ace/utils/extview.h
 CMakeFiles/hyperx.dir/src/main.c.obj: /root/ACE/include/ace/utils/file.h
+CMakeFiles/hyperx.dir/src/main.c.obj: /root/ACE/include/ace/utils/tag.h
 
 CMakeFiles/hyperx.dir/src/mygame.c.obj: ../fonts/fonts.h
 CMakeFiles/hyperx.dir/src/mygame.c.obj: ../images/Cursor.h

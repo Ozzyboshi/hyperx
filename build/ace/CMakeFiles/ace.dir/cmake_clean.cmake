@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/ace.dir/src/ace/managers/audio.c.obj"
   "CMakeFiles/ace.dir/src/ace/managers/blit.c.obj"
   "CMakeFiles/ace.dir/src/ace/managers/copper.c.obj"
   "CMakeFiles/ace.dir/src/ace/managers/game.c.obj"

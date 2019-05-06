@@ -57,33 +57,9 @@ include ace/CMakeFiles/ace.dir/progress.make
 # Include the compile flags for this target's objects.
 include ace/CMakeFiles/ace.dir/flags.make
 
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj: ace/CMakeFiles/ace.dir/flags.make
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj: ../../src/ace/managers/audio.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj"
-	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/audio.c.obj   -c /root/ACE/src/ace/managers/audio.c
-
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/ace.dir/src/ace/managers/audio.c.i"
-	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ACE/src/ace/managers/audio.c > CMakeFiles/ace.dir/src/ace/managers/audio.c.i
-
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/ace.dir/src/ace/managers/audio.c.s"
-	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ACE/src/ace/managers/audio.c -o CMakeFiles/ace.dir/src/ace/managers/audio.c.s
-
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.requires:
-
-.PHONY : ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.requires
-
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.provides: ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.requires
-	$(MAKE) -f ace/CMakeFiles/ace.dir/build.make ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.provides.build
-.PHONY : ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.provides
-
-ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.provides.build: ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj
-
-
 ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj: ../../src/ace/managers/blit.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/blit.c.obj   -c /root/ACE/src/ace/managers/blit.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.i: cmake_force
@@ -107,7 +83,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj: ../../src/ace/managers/copper.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/copper.c.obj   -c /root/ACE/src/ace/managers/copper.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.i: cmake_force
@@ -131,7 +107,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj.provides.build: ace/CMakeFi
 
 ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj: ../../src/ace/managers/game.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/game.c.obj   -c /root/ACE/src/ace/managers/game.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/game.c.i: cmake_force
@@ -155,7 +131,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.obj: ../../src/ace/managers/joy.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/joy.c.obj   -c /root/ACE/src/ace/managers/joy.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.i: cmake_force
@@ -179,7 +155,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/joy.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/managers/key.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/key.c.obj: ../../src/ace/managers/key.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/key.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/key.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/key.c.obj   -c /root/ACE/src/ace/managers/key.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/key.c.i: cmake_force
@@ -203,7 +179,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/key.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/managers/log.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/log.c.obj: ../../src/ace/managers/log.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/log.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/log.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/log.c.obj   -c /root/ACE/src/ace/managers/log.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/log.c.i: cmake_force
@@ -227,7 +203,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/log.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.obj: ../../src/ace/managers/memory.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/memory.c.obj   -c /root/ACE/src/ace/managers/memory.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.i: cmake_force
@@ -251,7 +227,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/memory.c.obj.provides.build: ace/CMakeFi
 
 ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj: ../../src/ace/managers/mouse.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj   -c /root/ACE/src/ace/managers/mouse.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.i: cmake_force
@@ -275,7 +251,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/mouse.c.obj.provides.build: ace/CMakeFil
 
 ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.obj: ../../src/ace/managers/rand.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/rand.c.obj   -c /root/ACE/src/ace/managers/rand.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.i: cmake_force
@@ -299,7 +275,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/rand.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/managers/system.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/system.c.obj: ../../src/ace/managers/system.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/system.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/system.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/system.c.obj   -c /root/ACE/src/ace/managers/system.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/system.c.i: cmake_force
@@ -323,7 +299,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/system.c.obj.provides.build: ace/CMakeFi
 
 ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.obj: ../../src/ace/managers/timer.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/timer.c.obj   -c /root/ACE/src/ace/managers/timer.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.i: cmake_force
@@ -347,7 +323,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/timer.c.obj.provides.build: ace/CMakeFil
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj: ../../src/ace/managers/viewport/camera.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj   -c /root/ACE/src/ace/managers/viewport/camera.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.i: cmake_force
@@ -371,7 +347,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/viewport/camera.c.obj.provides.build: ac
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj: ../../src/ace/managers/viewport/scrollbuffer.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj   -c /root/ACE/src/ace/managers/viewport/scrollbuffer.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.i: cmake_force
@@ -395,7 +371,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/viewport/scrollbuffer.c.obj.provides.bui
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj: ../../src/ace/managers/viewport/simplebuffer.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj   -c /root/ACE/src/ace/managers/viewport/simplebuffer.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.i: cmake_force
@@ -419,7 +395,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/viewport/simplebuffer.c.obj.provides.bui
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj: ../../src/ace/managers/viewport/tilebuffer.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj   -c /root/ACE/src/ace/managers/viewport/tilebuffer.c
 
 ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.i: cmake_force
@@ -443,7 +419,7 @@ ace/CMakeFiles/ace.dir/src/ace/managers/viewport/tilebuffer.c.obj.provides.build
 
 ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj: ../../src/ace/utils/bitmap.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj   -c /root/ACE/src/ace/utils/bitmap.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.i: cmake_force
@@ -467,7 +443,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/bitmap.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj: ../../src/ace/utils/bmframe.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj   -c /root/ACE/src/ace/utils/bmframe.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.i: cmake_force
@@ -491,7 +467,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/bmframe.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj: ../../src/ace/utils/chunky.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj   -c /root/ACE/src/ace/utils/chunky.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.i: cmake_force
@@ -515,7 +491,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/chunky.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.obj: ../../src/ace/utils/custom.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/custom.c.obj   -c /root/ACE/src/ace/utils/custom.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.i: cmake_force
@@ -539,7 +515,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/custom.c.obj.provides.build: ace/CMakeFiles
 
 ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.obj: ../../src/ace/utils/dir.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/dir.c.obj   -c /root/ACE/src/ace/utils/dir.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.i: cmake_force
@@ -563,7 +539,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/dir.c.obj.provides.build: ace/CMakeFiles/ac
 
 ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.obj: ../../src/ace/utils/extview.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/extview.c.obj   -c /root/ACE/src/ace/utils/extview.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.i: cmake_force
@@ -587,7 +563,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/extview.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/utils/file.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/file.c.obj: ../../src/ace/utils/file.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/file.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/file.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/file.c.obj   -c /root/ACE/src/ace/utils/file.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/file.c.i: cmake_force
@@ -611,7 +587,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/file.c.obj.provides.build: ace/CMakeFiles/a
 
 ace/CMakeFiles/ace.dir/src/ace/utils/font.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/font.c.obj: ../../src/ace/utils/font.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/font.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/font.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/font.c.obj   -c /root/ACE/src/ace/utils/font.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/font.c.i: cmake_force
@@ -635,7 +611,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/font.c.obj.provides.build: ace/CMakeFiles/a
 
 ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.obj: ../../src/ace/utils/palette.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/palette.c.obj   -c /root/ACE/src/ace/utils/palette.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.i: cmake_force
@@ -659,7 +635,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/palette.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.obj: ../../src/ace/utils/tag.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/ace/utils/tag.c.obj   -c /root/ACE/src/ace/utils/tag.c
 
 ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.i: cmake_force
@@ -683,7 +659,7 @@ ace/CMakeFiles/ace.dir/src/ace/utils/tag.c.obj.provides.build: ace/CMakeFiles/ac
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.obj: ../../src/fixmath/fix16.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fix16.c.obj   -c /root/ACE/src/fixmath/fix16.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.i: cmake_force
@@ -707,7 +683,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fix16.c.obj.provides.build: ace/CMakeFiles/ac
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj: ../../src/fixmath/fix16_exp.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj   -c /root/ACE/src/fixmath/fix16_exp.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.i: cmake_force
@@ -731,7 +707,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fix16_exp.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj: ../../src/fixmath/fix16_sqrt.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj   -c /root/ACE/src/fixmath/fix16_sqrt.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.i: cmake_force
@@ -755,7 +731,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fix16_sqrt.c.obj.provides.build: ace/CMakeFil
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj: ../../src/fixmath/fix16_str.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj   -c /root/ACE/src/fixmath/fix16_str.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.i: cmake_force
@@ -779,7 +755,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fix16_str.c.obj.provides.build: ace/CMakeFile
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj: ../../src/fixmath/fix16_trig.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj   -c /root/ACE/src/fixmath/fix16_trig.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.i: cmake_force
@@ -803,7 +779,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fix16_trig.c.obj.provides.build: ace/CMakeFil
 
 ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj: ../../src/fixmath/fract32.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/fract32.c.obj   -c /root/ACE/src/fixmath/fract32.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.i: cmake_force
@@ -827,7 +803,7 @@ ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj.provides.build: ace/CMakeFiles/
 
 ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj: ace/CMakeFiles/ace.dir/flags.make
 ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj: ../../src/fixmath/uint32.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj"
 	cd /root/ACE/game/build/ace && /opt/amiga/bin/m68k-amigaos-gcc --sysroot=/opt/amiga $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ace.dir/src/fixmath/uint32.c.obj   -c /root/ACE/src/fixmath/uint32.c
 
 ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.i: cmake_force
@@ -851,7 +827,6 @@ ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj.provides.build: ace/CMakeFiles/a
 
 # Object files for target ace
 ace_OBJECTS = \
-"CMakeFiles/ace.dir/src/ace/managers/audio.c.obj" \
 "CMakeFiles/ace.dir/src/ace/managers/blit.c.obj" \
 "CMakeFiles/ace.dir/src/ace/managers/copper.c.obj" \
 "CMakeFiles/ace.dir/src/ace/managers/game.c.obj" \
@@ -888,7 +863,6 @@ ace_OBJECTS = \
 # External object files for target ace
 ace_EXTERNAL_OBJECTS =
 
-ace/libace.a: ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj
 ace/libace.a: ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj
 ace/libace.a: ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj
 ace/libace.a: ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj
@@ -923,7 +897,7 @@ ace/libace.a: ace/CMakeFiles/ace.dir/src/fixmath/fract32.c.obj
 ace/libace.a: ace/CMakeFiles/ace.dir/src/fixmath/uint32.c.obj
 ace/libace.a: ace/CMakeFiles/ace.dir/build.make
 ace/libace.a: ace/CMakeFiles/ace.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking C static library libace.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/ACE/game/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Linking C static library libace.a"
 	cd /root/ACE/game/build/ace && $(CMAKE_COMMAND) -P CMakeFiles/ace.dir/cmake_clean_target.cmake
 	cd /root/ACE/game/build/ace && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ace.dir/link.txt --verbose=$(VERBOSE)
 
@@ -932,7 +906,6 @@ ace/CMakeFiles/ace.dir/build: ace/libace.a
 
 .PHONY : ace/CMakeFiles/ace.dir/build
 
-ace/CMakeFiles/ace.dir/requires: ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj.requires
 ace/CMakeFiles/ace.dir/requires: ace/CMakeFiles/ace.dir/src/ace/managers/blit.c.obj.requires
 ace/CMakeFiles/ace.dir/requires: ace/CMakeFiles/ace.dir/src/ace/managers/copper.c.obj.requires
 ace/CMakeFiles/ace.dir/requires: ace/CMakeFiles/ace.dir/src/ace/managers/game.c.obj.requires

@@ -79,6 +79,14 @@ ace/managers/joy.h
 -
 ace/managers/blit.h
 -
+../images/Valkyrie2.h
+/root/ACE/game/images/Valkyrie2.h
+../music/forden.h
+/root/ACE/game/music/forden.h
+../fonts/fonts.h
+/root/ACE/game/fonts/fonts.h
+../images/Cursor.h
+/root/ACE/game/images/Cursor.h
 coords.h
 /root/ACE/game/src/coords.h
 mygame.h
@@ -89,14 +97,6 @@ geometry.h
 /root/ACE/game/src/geometry.h
 stdlib.h
 -
-../images/Valkyrie2.h
-/root/ACE/game/images/Valkyrie2.h
-../music/forden.h
-/root/ACE/game/music/forden.h
-../fonts/fonts.h
-/root/ACE/game/fonts/fonts.h
-../images/Cursor.h
-/root/ACE/game/images/Cursor.h
 
 /root/ACE/game/src/mygame.h
 geometry.h
@@ -191,8 +191,6 @@ ace/utils/file.h
 -
 
 /root/ACE/include/ace/managers/memory.h
-clib/exec_protos.h
--
 exec/memory.h
 -
 ace/types.h
@@ -264,6 +262,8 @@ hardware/custom.h
 
 /root/ACE/include/ace/utils/extview.h
 ace/types.h
+-
+ace/utils/tag.h
 -
 ace/managers/log.h
 -

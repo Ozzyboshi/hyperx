@@ -171,33 +171,6 @@ ace/fast:
 	cd /root/ACE/game/build && $(MAKE) -f ace/CMakeFiles/ace.dir/build.make ace/CMakeFiles/ace.dir/build
 .PHONY : ace/fast
 
-src/ace/managers/audio.obj: src/ace/managers/audio.c.obj
-
-.PHONY : src/ace/managers/audio.obj
-
-# target to build an object file
-src/ace/managers/audio.c.obj:
-	cd /root/ACE/game/build && $(MAKE) -f ace/CMakeFiles/ace.dir/build.make ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.obj
-.PHONY : src/ace/managers/audio.c.obj
-
-src/ace/managers/audio.i: src/ace/managers/audio.c.i
-
-.PHONY : src/ace/managers/audio.i
-
-# target to preprocess a source file
-src/ace/managers/audio.c.i:
-	cd /root/ACE/game/build && $(MAKE) -f ace/CMakeFiles/ace.dir/build.make ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.i
-.PHONY : src/ace/managers/audio.c.i
-
-src/ace/managers/audio.s: src/ace/managers/audio.c.s
-
-.PHONY : src/ace/managers/audio.s
-
-# target to generate assembly for a file
-src/ace/managers/audio.c.s:
-	cd /root/ACE/game/build && $(MAKE) -f ace/CMakeFiles/ace.dir/build.make ace/CMakeFiles/ace.dir/src/ace/managers/audio.c.s
-.PHONY : src/ace/managers/audio.c.s
-
 src/ace/managers/blit.obj: src/ace/managers/blit.c.obj
 
 .PHONY : src/ace/managers/blit.obj
@@ -1075,9 +1048,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
-	@echo "... src/ace/managers/audio.obj"
-	@echo "... src/ace/managers/audio.i"
-	@echo "... src/ace/managers/audio.s"
 	@echo "... src/ace/managers/blit.obj"
 	@echo "... src/ace/managers/blit.i"
 	@echo "... src/ace/managers/blit.s"

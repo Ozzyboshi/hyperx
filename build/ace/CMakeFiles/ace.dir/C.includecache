@@ -12,12 +12,6 @@
 ace/types.h
 -
 
-../../include/ace/managers/audio.h
-ace/types.h
--
-hardware/dmabits.h
--
-
 ../../include/ace/managers/blit.h
 exec/interrupts.h
 -
@@ -81,8 +75,6 @@ ace/utils/file.h
 -
 
 ../../include/ace/managers/memory.h
-clib/exec_protos.h
--
 exec/memory.h
 -
 ace/types.h
@@ -213,6 +205,8 @@ ace/types.h
 ../../include/ace/utils/extview.h
 ace/types.h
 -
+ace/utils/tag.h
+-
 ace/managers/log.h
 -
 ace/managers/memory.h
@@ -262,18 +256,6 @@ stdint.h
 
 ../../include/fixmath/uint32.h
 stdint.h
--
-
-/root/ACE/src/ace/managers/audio.c
-ace/managers/audio.h
--
-ace/managers/memory.h
--
-ace/managers/log.h
--
-ace/utils/custom.h
--
-ace/managers/system.h
 -
 
 /root/ACE/src/ace/managers/blit.c
@@ -343,7 +325,7 @@ ace/managers/system.h
 -
 ace/utils/file.h
 -
-stdlib.h
+clib/exec_protos.h
 -
 
 /root/ACE/src/ace/managers/mouse.c
@@ -376,6 +358,10 @@ ace/utils/custom.h
 ace/managers/log.h
 -
 ace/managers/timer.h
+-
+exec/execbase.h
+-
+proto/exec.h
 -
 
 /root/ACE/src/ace/managers/timer.c

@@ -1,5 +1,5 @@
 #include <stddef.h>
-CHIP const unsigned char Cursor_data[] = {
+static CHIP const unsigned char Cursor_data[] = {
 
 /* VSTART */	0x30,
 /* HSTART */	0x90,

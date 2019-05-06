@@ -1,3 +1,4 @@
+
 #include <ace/managers/key.h> // We'll use key* fns here
 #include <ace/managers/game.h> // For using gameClose
 #include <ace/managers/system.h> // For systemUnuse and systemUse
@@ -5,16 +6,17 @@
 #include <ace/utils/chunky.h>
 #include <ace/managers/joy.h>
 #include <ace/managers/blit.h>
+#include "../images/Valkyrie2.h"
+#include "../music/forden.h"
+#include "../fonts/fonts.h"
+#include "../images/Cursor.h"
 #include "coords.h"
 #include "mygame.h"
 #include "flood.h"
 #include "geometry.h"
 #include <stdlib.h>
 //#include "white.h"
-#include "../images/Valkyrie2.h"
-#include "../music/forden.h"
-#include "../fonts/fonts.h"
-#include "../images/Cursor.h"
+
 
 //#define   REG(x,y) register y __asm(#x)
 
@@ -43,6 +45,7 @@ void blitphrase(tSimpleBufferManager* ,const char*,const unsigned int);
 void setCursorSprite();
 void spriteMove(UWORD,UWORD);
 #endif
+point* point_enqueue2(point* pointList,int x,int y);
 
 // "Gamestate" is a long word, so let's use shortcut "Gs" when naming fns
 tView *s_pView,*s_pViewRealPlay;
@@ -65,6 +68,8 @@ void gameGsCreate(void) {
   char scoreStr[19];
 #endif
 
+  Forbid();
+  Disable();
   //static tView *s_pView; // View containing all the viewports
 
   //static tVPort *s_pVpScore,*s_pVpScoreRealPlay; // Viewport for score
@@ -219,11 +224,12 @@ void gameGsLoop(void) {
   static int YCoordinate=-1;
   static int oldXCoordinate=0;
   static int oldYCoordinate=0;
-  static UBYTE drawSession=0; // Holds 1 if we are drawing
+  static int drawSession=0; // Holds 1 if we are drawing
   static int lastMoveflag=0;
-  static int orientation=0;
+  static int moveFlag=0;
   static int firstMoveLastDraw=0;
-  static point* pointList;
+
+  static point* pointList=NULL;
   static point firstPoint;
   static unsigned int cornerCounter;
   static int levComplete=0;
@@ -244,11 +250,11 @@ void gameGsLoop(void) {
   if (XCoordinate==-1) XCoordinate=PLAYGROUND_X1(s_pVpMain);
   if (YCoordinate==-1) YCoordinate=PLAYGROUND_Y2(s_pVpMain);
   
-  int moveFlag=0;
+  
   
   //vPortWaitForEnd(s_pVpMain); // Wait for vertical blank
 
-  //vPortWaitForEnd(s_pVpMainCurrent);
+//  vPortWaitForEnd(s_pVpMainCurrent);
  /* UWORD uwEndPos = s_pVpMainCurrent->uwOffsY + s_pVpMainCurrent->uwHeight + 0x2C;
   UWORD uwCurrFrame;
   if(g_pRayPos->bfPosY < uwEndPos)
@@ -314,16 +320,16 @@ else {
     if (moveFlag && lastMoveflag!=moveFlag)
     {
       // underclock wise
-      if (lastMoveflag==JOY1_DOWN && moveFlag==JOY1_RIGHT)       {corner=1;orientation--; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_RIGHT && moveFlag==JOY1_UP)    {corner=1;orientation--; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_UP && moveFlag==JOY1_LEFT)     {corner=1;orientation--; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_LEFT && moveFlag==JOY1_DOWN)   {corner=1;orientation--; logWrite("change orientation :%d\n",orientation);}
+      if (lastMoveflag==JOY1_DOWN && moveFlag==JOY1_RIGHT)       {corner=1;}
+      else if (lastMoveflag==JOY1_RIGHT && moveFlag==JOY1_UP)    {corner=1;}
+      else if (lastMoveflag==JOY1_UP && moveFlag==JOY1_LEFT)     {corner=1;}
+      else if (lastMoveflag==JOY1_LEFT && moveFlag==JOY1_DOWN)   {corner=1;}
 
       // clock wise
-      if (lastMoveflag==JOY1_DOWN && moveFlag==JOY1_LEFT)        {corner=1;orientation++; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_LEFT && moveFlag==JOY1_UP)     {corner=1;orientation++; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_UP && moveFlag==JOY1_RIGHT)    {corner=1;orientation++; logWrite("change orientation :%d\n",orientation);}
-      else if (lastMoveflag==JOY1_RIGHT && moveFlag==JOY1_DOWN)  {corner=1;orientation++; logWrite("change orientation :%d\n",orientation);}      
+      if (lastMoveflag==JOY1_DOWN && moveFlag==JOY1_LEFT)        {corner=1;}
+      else if (lastMoveflag==JOY1_LEFT && moveFlag==JOY1_UP)     {corner=1;}
+      else if (lastMoveflag==JOY1_UP && moveFlag==JOY1_RIGHT)    {corner=1;}
+      else if (lastMoveflag==JOY1_RIGHT && moveFlag==JOY1_DOWN)  {corner=1;}
     }
 
     if (moveFlag>0) lastMoveflag=moveFlag;
@@ -341,7 +347,7 @@ else {
       else
       {
 #ifdef PRINTFONTS
-        snprintf(scoreStr,15,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
+        snprintf(scoreStr,17,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
         blitphrase(s_pScoreBuffer,scoreStr,0);
 #endif
 #ifdef PLAYER_SPRITES
@@ -349,38 +355,43 @@ else {
         spriteMove((UWORD)XCoordinate-8,(UWORD)YCoordinate+s_pVpScoreRealPlay->uwHeight-8);
         copProcessBlocks();
 #endif
+        
         // DrawSession management
         UBYTE color = chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate);
+        
         //if (drawSession==0 && chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate)==0)
-        if (drawSession==0 && color==EMPTY_COLOR_INDEX)
+        if (drawSession==0 && color==(UBYTE)EMPTY_COLOR_INDEX)
         {
           drawSession=1;
           firstMoveLastDraw=moveFlag;
-          pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
+          pointList=point_enqueue2(pointList,XCoordinate,YCoordinate-YPADDING);
           logWrite("\n\nDrawsession started at %d %d\n\n",XCoordinate,YCoordinate);
           buildPoint(oldXCoordinate,oldYCoordinate,&firstPoint);
-          s_pVpScore->pPalette[0]=0X0FFF;
+          //s_pVpScore->pPalette[0]=0X0FFF;
+          
         }
         //else if (drawSession==1 && chunkyFromPlanar(s_pMainBuffer->pFront, XCoordinate,YCoordinate)!=0)
         //else if (drawSession==1 && color!=EMPTY_COLOR_INDEX)
-        else if (drawSession==1 && color==TRACK_COLOR_INDEX)
+        else if (drawSession==1 && color==(UBYTE)TRACK_COLOR_INDEX)
         {
           drawSession=0;
           pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
           logWrite("\n\nDrawsession ended at %d %d\n\n",XCoordinate,YCoordinate);
           fillShape=1;
-          s_pVpScore->pPalette[0]=0X0000;
+          /*s_pVpScore->pPalette[0]=0X0000;*/
         }
         else if (corner && drawSession==1) 
         {
-          pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
+          pointList=point_enqueue2(pointList,XCoordinate,YCoordinate-YPADDING);
           cornerCounter++;
         }
+        
+        
         
         // Plot new point
    
         PLOT_POINT(CURSOR_COLOR_INDEX,XCoordinate,YCoordinate)
- 
+        if (1) {
         if (!firePressed||(firePressed&&!drawSession)) { PLOT_POINT(TRACK_COLOR_INDEX,oldXCoordinate,oldYCoordinate) }
 
         // If the draw session ended i fill the shape
@@ -559,7 +570,7 @@ else {
             else if (firstMoveLastDraw==JOY1_UP) forceFill|=8;
             if (moveFlag==JOY1_UP) forceFill|=4;*/
           }
-          logWrite("Shape flood starts at (%d,%d), orientation: %d Coordinates: %d,%d\n",floodCoords.x,-1*floodCoords.y,orientation,XCoordinate,YCoordinate);
+          logWrite("Shape flood starts at (%d,%d) Coordinates: %d,%d\n",floodCoords.x,-1*floodCoords.y,XCoordinate,YCoordinate);
 
           Coordlimits* limits = shape_flood(floodCoords.x, -1*floodCoords.y,FILL_COLOR_INDEX,EMPTY_COLOR_INDEX,ALL);
           //Coordlimits* limits = shape_flood(s_pMainBuffer->pFront,floodCoords.x, floodCoords.y,FILL_COLOR_INDEX,0,1);
@@ -588,7 +599,7 @@ else {
 #endif
 
           fillShape=0;
-          lastMoveflag=orientation=0;
+          lastMoveflag=0;
 
           // Corner queue free
           point* ptr=pointList;
@@ -614,6 +625,7 @@ else {
           }
           wait2();
           return;
+        }
         }
       }
     }
@@ -1385,12 +1397,23 @@ void blitchar(tSimpleBufferManager * buffer,char character,int offset,const unsi
 
 void setCursorSprite()
 {
+  int i=0;
   UBYTE maxCmds = 2; // two MOVEs
   UWORD waitX = 0; UWORD waitY = 0;
+  
+  // Reset sprite pointers to avoid random flickering 
+  for (i=1;i<8;i++)
+  {
+    tCopBlock *spriteInitBlock = copBlockCreate(s_pViewRealPlay->pCopList, maxCmds*7, waitX, waitY);
+    copMove(s_pViewRealPlay->pCopList, spriteInitBlock, &g_pSprFetch[i].uwHi, 0x0000);
+    copMove(s_pViewRealPlay->pCopList, spriteInitBlock, &g_pSprFetch[i].uwLo , 0x0000);
+  }
+  
   tCopBlock *myBlock = copBlockCreate(s_pViewRealPlay->pCopList, maxCmds, waitX, waitY);
   ULONG ulAddr = (ULONG)Cursor_data;
   copMove(s_pViewRealPlay->pCopList, myBlock, &g_pSprFetch[0].uwHi, ulAddr >> 16);
   copMove(s_pViewRealPlay->pCopList, myBlock, &g_pSprFetch[0].uwLo , ulAddr & 0xFFFF);
+  
   // remember to enable sprite DMA
   systemSetDma(DMAB_SPRITE, 1);
 }
@@ -1434,3 +1457,23 @@ void spriteMove(UWORD x,UWORD y)
   return ;
 }
 #endif
+
+point* point_enqueue2(point* pointList,int x,int y)
+{
+	point* ptr;
+	point* newPoint;
+	newPoint = (point*) malloc (sizeof(point));
+	//newPoint = (point*)AllocMem(sizeof(point),MEMF_CHIP);
+	newPoint->x=x;
+	newPoint->y=y*-1;
+	newPoint->next=NULL;
+	newPoint->prev=NULL;
+	if (pointList==NULL)
+		return newPoint;
+	ptr=pointList;
+	while(ptr->next)
+		ptr=(point*)ptr->next;
+	ptr->next=(struct point*)newPoint;
+	//newPoint->prev=(point*)ptr;
+	return pointList;
+}
