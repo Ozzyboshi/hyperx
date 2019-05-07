@@ -6,7 +6,7 @@
 #include <ace/utils/chunky.h>
 #include <ace/managers/joy.h>
 #include <ace/managers/blit.h>
-#include "../images/Valkyrie2.h"
+#include "../images/Valkyrie5.h"
 #include "../music/forden.h"
 #include "../fonts/fonts.h"
 #include "../images/Cursor.h"
@@ -29,7 +29,7 @@ int interno3 ( point , point* );
 
 int geometryGetRightArea2(point* ,int ,point,point);
 int geometryReverseArea2(point* ,int ,point,point);
-void refreshScreenRealPlay();
+void refreshScreenRealPlay(const unsigned char*);
 void snd_init();
 long mt_init(const unsigned char*);
 #ifdef SOUND
@@ -120,64 +120,28 @@ void gameGsCreate(void) {
   //blitLine(s_pMainBuffer->pBack, X2, Y2, X2 ,Y1, 1, 0xFFFF, 0); // Vertical right
 
   for (i=0;i<PLAYGROUND_HEIGHT;i++) {PLAYGROUND[i][X1]=(UBYTE)3;PLAYGROUND[i][X2]=(UBYTE)3;}
-  /*for (int yCont=0;yCont<PLAYGROUND_HEIGHT;yCont++)
-    for (int xCont=0;xCont<320;xCont+=16)
-      chunkyToPlanar16(&PLAYGROUND[yCont][xCont],xCont,yCont+Y2,s_pMainBuffer->pFront);*/
-  refreshscreen(0,PLAYGROUND_HEIGHT);
-  refreshScreenRealPlay();
   
-  //bitmapLoadFromFile(s_pMainBuffer->pBuffer,"background.bm",0,0);
-  /*for (i=1;i<10;i++)
-  {
-    chunkyToPlanar(1, 16*i, 0, s_pScoreBuffer->pBack);
-  }
-  for (i=1;i<10;i++)
-  {
-    chunkyToPlanar(2, 16*i, 5, s_pScoreBuffer->pFront);
-  }
-  for (i=1;i<10;i++)
-  {
-    chunkyToPlanar(3, 16*i, 7, s_pScoreBuffer->pFront);
-  }*/
+  refreshscreen(0,PLAYGROUND_HEIGHT);
+  refreshScreenRealPlay(Valkyrie_data);
   
   s_pVpScore->pPalette[0] = 0x0000; // First color is also border color
   s_pVpScore->pPalette[1] = 0x0F00; // Gray
   s_pVpScore->pPalette[2] = 0x00F0; // Red - not max, a bit dark
   s_pVpScore->pPalette[3] = 0x000F; // Blue - same brightness as red
 
+  for (i=4;i<16;i++)
+    s_pVpScoreRealPlay->pPalette[i]=Valkyrie_data_colors[i-4];
+
   s_pVpScoreRealPlay->pPalette[0] = 0x0000; // First color is also border color
   s_pVpScoreRealPlay->pPalette[1] = 0x0F00; // Gray
   s_pVpScoreRealPlay->pPalette[2] = 0x00F0; // Red - not max, a bit dark
   s_pVpScoreRealPlay->pPalette[3] = 0x000F; // Blue - same brightness as red*/
 
-  s_pVpScoreRealPlay->pPalette[4] = 0x019; // First color is also border color
-  s_pVpScoreRealPlay->pPalette[5] = 0x0B66; // Gray
-  s_pVpScoreRealPlay->pPalette[6] = 0x0CCC; // Red - not max, a bit dark
-  s_pVpScoreRealPlay->pPalette[7] = 0x0620;
-  s_pVpScoreRealPlay->pPalette[8] = 0x955; // First color is also border color
-  s_pVpScoreRealPlay->pPalette[9] = 0x0FA8; // Gray
-  s_pVpScoreRealPlay->pPalette[10] = 0x0E0A; // Red - not max, a bit dark
-  s_pVpScoreRealPlay->pPalette[11] = 0x0F99;
-  s_pVpScoreRealPlay->pPalette[12] = 0x0F88; // First color is also border color
-  s_pVpScoreRealPlay->pPalette[13] = 0x0EAA; // Gray
-  s_pVpScoreRealPlay->pPalette[14] = 0x0004; // Red - not max, a bit dark
-  s_pVpScoreRealPlay->pPalette[15] = 0x078A;
-
-  //s_pVpScoreRealPlay->pPalette[16] = 0x0070; // First color is also border color
   // Sprite 0 colors (cursor)
   s_pVpScoreRealPlay->pPalette[17] = 0x0070; // Gray
   s_pVpScoreRealPlay->pPalette[18] = 0x00f0; // Red - not max, a bit dark
   s_pVpScoreRealPlay->pPalette[19] = 0x0bf0;
-
-
-  
-  /*s_pVpMain->pPalette[0] = 0x0000; // First color is also border color
-  s_pVpMain->pPalette[1] = 0x0F00; // Gray
-  s_pVpMain->pPalette[2] = 0x0F00; // Red - not max, a bit dark
-  s_pVpMain->pPalette[3] = 0x0F00;*/ // Blue - same brightness as red
-  
-  //UBYTE lol = chunkyFromPlanar(s_pScoreBuffer->pBack, 16,0);
-  
+    
   // Initializations for this gamestate - load bitmaps, draw background, etc.
   // We don't need anything here right now except for unusing OS
   systemUnuse();
@@ -580,13 +544,13 @@ else {
             logWrite("Y limits : %d,%d- yMaxFlodded:%d\n",limits->minY,limits->maxY,limits->yMaxFlodded);
             PLOT_POINT(TRACK_COLOR_INDEX,firstPoint.x,firstPoint.y)
             refreshscreen(limits->minY-2,limits->maxY+2);
-            refreshScreenRealPlay();
+            refreshScreenRealPlay(Valkyrie_data);
             free(limits);
           }
           else 
           {
               refreshscreen(0,PLAYGROUND_HEIGHT);
-              refreshScreenRealPlay();
+              refreshScreenRealPlay(Valkyrie_data);
           }
 
           /*float percentage=(float)SCORE/(float)PLAYGROUND_AREA*100;
@@ -1141,7 +1105,7 @@ int geometryReverseArea2(point* pointList,int reverse,point point1,point point2)
   return areaX-areaY;
 }
 
-void refreshScreenRealPlay()
+void refreshScreenRealPlay(const unsigned char* Valkyrie2_data)
 {
   blitWait();
   g_pCustom->bltcon0 = 0x0FE0;
