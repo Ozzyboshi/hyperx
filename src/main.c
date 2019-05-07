@@ -1,7 +1,7 @@
 #include <ace/generic/main.h>
 #include <ace/managers/key.h>
 #include <ace/managers/joy.h>
-#include "mygame.h"
+#include "hyperx.h"
 
 
 void genericCreate(void) {

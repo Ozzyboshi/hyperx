@@ -11,7 +11,7 @@
 #include "../fonts/fonts.h"
 #include "../images/Cursor.h"
 #include "coords.h"
-#include "mygame.h"
+#include "hyperx.h"
 #include "flood.h"
 #include "geometry.h"
 #include <stdlib.h>
