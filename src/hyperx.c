@@ -16,12 +16,14 @@
 #include "geometry.h"
 #include <stdlib.h>
 //#include "white.h"
-
+#include <exec/execbase.h>
+#include <proto/exec.h>
 
 //#define   REG(x,y) register y __asm(#x)
 
 #define SOUND
 #define PRINTFONTS
+//#define PRINTFONTS_DEBUG
 #define PLAYER_SPRITES
 
 int interno2 ( point , point* );
@@ -30,10 +32,10 @@ int interno3 ( point , point* );
 int geometryGetRightArea2(point* ,int ,point,point);
 int geometryReverseArea2(point* ,int ,point,point);
 void refreshScreenRealPlay(const unsigned char*);
-void snd_init();
-long mt_init(const unsigned char*);
 #ifdef SOUND
+long mt_init(const unsigned char*);
 void mt_music();
+void mt_end();
 #endif
 void wait1();
 void wait2();
@@ -45,7 +47,7 @@ void blitphrase(tSimpleBufferManager* ,const char*,const unsigned int);
 void setCursorSprite();
 void spriteMove(UWORD,UWORD);
 #endif
-point* point_enqueue2(point* pointList,int x,int y);
+void waitblit();
 
 // "Gamestate" is a long word, so let's use shortcut "Gs" when naming fns
 tView *s_pView,*s_pViewRealPlay;
@@ -68,8 +70,8 @@ void gameGsCreate(void) {
   char scoreStr[19];
 #endif
 
-  Forbid();
-  Disable();
+  /*Forbid();
+  Disable();*/
   //static tView *s_pView; // View containing all the viewports
 
   //static tVPort *s_pVpScore,*s_pVpScoreRealPlay; // Viewport for score
@@ -141,6 +143,12 @@ void gameGsCreate(void) {
   s_pVpScoreRealPlay->pPalette[17] = 0x0070; // Gray
   s_pVpScoreRealPlay->pPalette[18] = 0x00f0; // Red - not max, a bit dark
   s_pVpScoreRealPlay->pPalette[19] = 0x0bf0;
+  
+  if (SysBase->AttnFlags & AFF_68010)
+  {
+    s_pVpScore->pPalette[0] = 0x0FFF;
+    s_pVpScoreRealPlay->pPalette[0] = 0x0FFF;
+  }
     
   // Initializations for this gamestate - load bitmaps, draw background, etc.
   // We don't need anything here right now except for unusing OS
@@ -190,7 +198,6 @@ void gameGsLoop(void) {
   static int oldYCoordinate=0;
   static int drawSession=0; // Holds 1 if we are drawing
   static int lastMoveflag=0;
-  static int moveFlag=0;
   static int firstMoveLastDraw=0;
 
   static point* pointList=NULL;
@@ -198,6 +205,7 @@ void gameGsLoop(void) {
   static unsigned int cornerCounter;
   static int levComplete=0;
 
+  int moveFlag=0;
   UBYTE fillShape=0;
   int corner=0;
   int YFloodCoordinate=0;
@@ -311,13 +319,15 @@ else {
       else
       {
 #ifdef PRINTFONTS
+#ifdef PRINTFONTS_DEBUG
         snprintf(scoreStr,17,"X:%d Y:%d DM:%d  ",XCoordinate,YCoordinate,drawSession);
         blitphrase(s_pScoreBuffer,scoreStr,0);
+#endif
 #endif
 #ifdef PLAYER_SPRITES
         //Update sprite
         spriteMove((UWORD)XCoordinate-8,(UWORD)YCoordinate+s_pVpScoreRealPlay->uwHeight-8);
-        copProcessBlocks();
+        //copProcessBlocks();
 #endif
         
         // DrawSession management
@@ -328,7 +338,7 @@ else {
         {
           drawSession=1;
           firstMoveLastDraw=moveFlag;
-          pointList=point_enqueue2(pointList,XCoordinate,YCoordinate-YPADDING);
+          pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
           logWrite("\n\nDrawsession started at %d %d\n\n",XCoordinate,YCoordinate);
           buildPoint(oldXCoordinate,oldYCoordinate,&firstPoint);
           //s_pVpScore->pPalette[0]=0X0FFF;
@@ -346,7 +356,7 @@ else {
         }
         else if (corner && drawSession==1) 
         {
-          pointList=point_enqueue2(pointList,XCoordinate,YCoordinate-YPADDING);
+          pointList=point_enqueue(pointList,XCoordinate,YCoordinate-YPADDING);
           cornerCounter++;
         }
         
@@ -365,7 +375,7 @@ else {
           //int forceFill=0;
 
           // Vertical straight line
-          //if ((moveFlag==JOY1_UP||moveFlag==JOY1_DOWN) /*&& cornerCounter==0*/ )
+          
           if ((firstMoveLastDraw==JOY1_UP&&moveFlag==JOY1_UP) || (firstMoveLastDraw==JOY1_DOWN && moveFlag==JOY1_DOWN) )
           {
             vMovement=1;
@@ -472,41 +482,50 @@ else {
                 int downArea = geometryReverseArea2(pointList,0,point1,point2);
                 logWrite("Down area: %d\n",downArea);
                 if (upArea<downArea)
-                  buildPoint(pointList->x,pointList->y-1,&floodCoords);
-                else
+                {
                   buildPoint(pointList->x,pointList->y+1,&floodCoords);
+                  logWrite("Riempio su!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
+                else
+                {
+                  buildPoint(pointList->x,pointList->y-2,&floodCoords);
+                  logWrite("Riempio giu!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
+              }
+              else
+              {
+                logWrite("last mov sx!\n");
+                point point1,point2;
+                buildPoint(X1,-1*(Y2-YPADDING),&point1);
+                buildPoint(X2,-1*(Y2-YPADDING),&point2);
+
+                logWrite("Point 1: %d,%d\n",point1.x,point1.y);
+                logWrite("Point 2: %d,%d\n",point2.x,point2.y);
+                int upArea = geometryGetRightArea2(pointList,0,point1,point2);
+                if (upArea<0) upArea*=-1;
+                logWrite("Up area: %d\n",upArea);
+
+                buildPoint(X2,-1*(Y1-YPADDING),&point1);
+                buildPoint(X1,-1*(Y1-YPADDING),&point2);
+                logWrite("Point 1: %d,%d\n",point1.x,point1.y);
+                logWrite("Point 2: %d,%d\n",point2.x,point2.y);
+                int downArea = geometryReverseArea2(pointList,0,point1,point2);
+                if (downArea<0) downArea*=-1;
+                logWrite("Down area: %d\n",downArea);
+
+                if (upArea<downArea)
+                {
+                  buildPoint(pointList->x,pointList->y+1,&floodCoords);
+                  logWrite("Riempio su!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
+                else
+                {
+                  buildPoint(pointList->x,pointList->y-2,&floodCoords);
+                  logWrite("Riempio giu!! %d %d\n",floodCoords.x,floodCoords.y);
+                }
               }
             }
           }
-          //chunkyToPlanar(2, XCoordinate+1, YCoordinate-1, s_pMainBuffer->pFront);
-          //flood(XCoordinate+1, YCoordinate-1,2,0); 
-          //point tryPoint;
-
-          /*// Up right
-          tryPoint.x=XCoordinate+1+1;
-          tryPoint.y=-1*(YCoordinate-YPADDING-1-1);
-          logWrite("Interno upright: %d (%d,%d)\n",interno2(tryPoint,pointList),tryPoint.x,tryPoint.y);*/
-          
-          /*//Down right
-
-          tryPoint.x=XCoordinate+1;
-          tryPoint.y=-1*(YCoordinate-YPADDING+1);
-          logWrite("Interno downright: %d (%d,%d)\n",interno2(tryPoint,pointList),tryPoint.x,tryPoint.y);
-          
-          // Up left
-          tryPoint.x=XCoordinate-1;
-          tryPoint.y=-1*(YCoordinate-YPADDING-1);
-          logWrite("Interno upleft: %d (%d,%d)\n",interno2(tryPoint,pointList),tryPoint.x,tryPoint.y);*/
-
-          // Down left
-         /* tryPoint.x=XCoordinate-2;
-          tryPoint.y=-1*(YCoordinate-YPADDING+2);
-          logWrite("Interno downleft: %d (%d,%d)\n",interno2(tryPoint,pointList),tryPoint.x,tryPoint.y);*/
-
-          //int YFloodCoordinate=0;
-          //if (orientation>0) YFloodCoordinate=YCoordinate-YPADDING-1;
-          //else if (orientation<0)  YFloodCoordinate=YCoordinate-YPADDING+1;
-
           else
           {
             int coordFound=1;
@@ -523,22 +542,10 @@ else {
               }
             }
             PLOT_POINT(CURSOR_COLOR_INDEX,firstPoint.x,firstPoint.y) // Mark where the session really started with a red dot
-
-            //getFloodCoords( XCoordinate, YCoordinate,&XFloodCoordinate,&YFloodCoordinate);
-
-            
-            
-            /*if (firstMoveLastDraw==JOY1_RIGHT) forceFill|=1;
-            else if (firstMoveLastDraw==JOY1_LEFT) forceFill|=2;
-            else if (firstMoveLastDraw==JOY1_DOWN) forceFill|=4;
-            else if (firstMoveLastDraw==JOY1_UP) forceFill|=8;
-            if (moveFlag==JOY1_UP) forceFill|=4;*/
           }
           logWrite("Shape flood starts at (%d,%d) Coordinates: %d,%d\n",floodCoords.x,-1*floodCoords.y,XCoordinate,YCoordinate);
 
           Coordlimits* limits = shape_flood(floodCoords.x, -1*floodCoords.y,FILL_COLOR_INDEX,EMPTY_COLOR_INDEX,ALL);
-          //Coordlimits* limits = shape_flood(s_pMainBuffer->pFront,floodCoords.x, floodCoords.y,FILL_COLOR_INDEX,0,1);
-          //Coordlimits* limits=NULL;
           if (limits)
           {
             logWrite("Y limits : %d,%d- yMaxFlodded:%d\n",limits->minY,limits->maxY,limits->yMaxFlodded);
@@ -553,11 +560,11 @@ else {
               refreshScreenRealPlay(Valkyrie_data);
           }
 
-          /*float percentage=(float)SCORE/(float)PLAYGROUND_AREA*100;
-          div_t q = div( (int) SCORE,(int)PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT);*/
           double parea=PLAYGROUND_WIDTH*PLAYGROUND_HEIGHT;
           double percentage=(double)SCORE/(double)parea*100;
+          
 #ifdef PRINTFONTS
+          
           snprintf(scoreStr,16,"SCORE %d-%d%%",SCORE,(int)percentage);
           blitphrase(s_pScoreBufferRealPlay,scoreStr,0);
 #endif
@@ -576,7 +583,8 @@ else {
           }
           pointList=NULL;
           logWrite("Pointlist freed!\n");
-          firstMoveLastDraw=cornerCounter=0;
+          firstMoveLastDraw=0;
+          cornerCounter=0;
           if (percentage>75)
           {
 #ifdef PRINTFONTS
@@ -800,7 +808,10 @@ int getFloodCoords(point* pointList,int XCoordinate,int YCoordinate,int* XFloodC
     logWrite("FloodPoint : upright detected\n");
     return 0;
   }
-  else logWrite("FloodPoint : NO upright detected for point %d,%d\n",tryPoint.x,tryPoint.y);
+  else
+  {
+      logWrite("FloodPoint : NO upright detected for point %d,%d\n",tryPoint.x,tryPoint.y);
+  }
 
   // Down left
   tryPoint.x=XCoordinate-2;
@@ -1185,65 +1196,6 @@ void refreshScreenRealPlay(const unsigned char* Valkyrie2_data)
 
 }
 
-void snd_init()
-{
-  //mt_init();
-//__asm__("bsr.w   mt_init");
-
-/*__asm__("mt_init:\n\t\
-  move.l  mt_data,A0\n\t\
-  ");
-__asm__( "SECTION GRAPHIC,DATA_C\n\t\
-  mt_data:     dc.l mt_data1");
-__asm__( "mt_data1:    dc.l 0");*/
-
-
-
-/*
-  MOVE.L  A0,mt_SongDataPtr\n\t
-  MOVE.L  A0,A1\n\t
-  LEA 952(A1),A1\n\t
-  MOVEQ #127,D0\n\t
-  MOVEQ #0,D1\n\t
-mtloop:\n\t
-  MOVE.L  D1,D2\n\t
-  SUBQ.W  #1,D0\n\t
-mtloop2:\n\t
-  MOVE.B  (A1)+,D1\n\t
-  CMP.B D2,D1\n\t
-  BGT.S mtloop\n\t
-  DBRA  D0,mtloop2\n\t
-  ADDQ.B  #1,D2\n\t
-  LEA mt_SampleStarts(PC),A1\n\t
-  ASL.L #8,D2\n\t
-  ASL.L #2,D2\n\t
-  ADD.L #1084,D2\n\t
-  ADD.L A0,D2\n\t
-  MOVE.L  D2,A2\n\t
-  MOVEQ #30,D0\n\t
-mtloop3:\n\t
-  CLR.L (A2)\n\t
-  MOVE.L  A2,(A1)+\n\t
-  MOVEQ #0,D1\n\t
-  MOVE.W  42(A0),D1\n\t
-  ASL.L #1,D1\n\t
-  ADD.L D1,A2\n\t
-  ADD.w #30,A0\n\t
-  DBRA  D0,mtloop3\n\t
-  OR.B  #2,$BFE001\n\t
-  MOVE.B  #6,mt_speed\n\t
-  CLR.B mt_counter\n\t
-  CLR.B mt_SongPos\n\t
-  CLR.W mt_PatternPos\n\t
-mt_end:\n\t
-  CLR.W $DFF0A8\n\t
-  CLR.W $DFF0B8\n\t
-  CLR.W $DFF0C8\n\t
-  CLR.W $DFF0D8\n\t
-  MOVE.W  #$F,$DFF096\n\t
-  RTS\n\t");*/
-}
-
 #ifdef PRINTFONTS
 void blitphrase(tSimpleBufferManager* buffer,const char* phrase,const unsigned int row)
 {
@@ -1258,7 +1210,8 @@ void blitchar(tSimpleBufferManager * buffer,char character,int offset,const unsi
 {
   int charOffset=(int)character-32;
 
-   blitWait();
+  //blitWait();
+  waitblit();
   g_pCustom->bltcon0 = 0x09F0;
   g_pCustom->bltcon1 = 0x0000;
   g_pCustom->bltafwm = 0xFFFF;
@@ -1422,22 +1375,3 @@ void spriteMove(UWORD x,UWORD y)
 }
 #endif
 
-point* point_enqueue2(point* pointList,int x,int y)
-{
-	point* ptr;
-	point* newPoint;
-	newPoint = (point*) malloc (sizeof(point));
-	//newPoint = (point*)AllocMem(sizeof(point),MEMF_CHIP);
-	newPoint->x=x;
-	newPoint->y=y*-1;
-	newPoint->next=NULL;
-	newPoint->prev=NULL;
-	if (pointList==NULL)
-		return newPoint;
-	ptr=pointList;
-	while(ptr->next)
-		ptr=(point*)ptr->next;
-	ptr->next=(struct point*)newPoint;
-	//newPoint->prev=(point*)ptr;
-	return pointList;
-}

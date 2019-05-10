@@ -5,9 +5,17 @@
 	XDEF _mt_end
 	XDEF _wait1
 	XDEF _wait2
+	XDEF _waitblit
 
 
 	Section	HYPERX,CODE_C
+
+_waitblit:        
+        btst    #6,$dff002
+waitblit1 
+        btst    #6,$dff002    
+        bne.s   waitblit1
+        rts
 
 _wait1:
 	move.l	#$1ff00,D1	; bit per la selezione tramite AND
